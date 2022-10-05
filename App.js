@@ -10,7 +10,8 @@ export default function App() {
       email:'',
       password:'',
       salary:'',
-      age:''
+      age:'',
+      date:''
     }
   })
   // Metodo para capturar los datos - onsubmit
@@ -115,12 +116,13 @@ export default function App() {
         control={control}
         rules={{
           required:true,
-          pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/, // validar que solo sean letras y espacios
+          pattern:/^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}$/, // validar que solo sean letras y espacios
         }}
         render={({field: {onChange, onBlur, value}})=>(
           <TextInput
             style={styles.input}
             placeholder='Contraseña'
+            secureTextEntry={true}
             onChange={onChange}
             onBlur={onBlur}
             value={value}
@@ -130,6 +132,26 @@ export default function App() {
       />
       {errors.password?.type == "required" && <Text style={{color:'red',marginBottom:5,marginTop:-5}}>La contraseña es obligatoria</Text>}
       {errors.password?.type == "pattern" && <Text style={{color:'red',marginBottom:5,marginTop:-5}}>La contraseña debe cumplir con los requisitos</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required:true,
+          pattern:/^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})$/, // validar que solo sean letras y espacios
+        }}
+        render={({field: {onChange, onBlur, value}})=>(
+          <TextInput
+            style={styles.input}
+            placeholder='Fecha dd/mm/aa'
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+          />
+        )}
+        name='date'  // Valor a validar
+      />
+      {errors.date?.type == "required" && <Text style={{color:'red',marginBottom:5,marginTop:-5}}>La fechaa es obligatoria</Text>}
+      {errors.date?.type == "pattern" && <Text style={{color:'red',marginBottom:5,marginTop:-5}}>La fecha debe ser dd/mm/aa o dd-mm-aa</Text>}
 
       <TouchableOpacity
        style={{backgroundColor:'green',padding:10,borderRadius:10}}
